@@ -1,0 +1,118 @@
+<%- include("templates/header") %>
+  <div class="container-fluid p-5">
+    <h1 class="h1 pb-2 text-center">Sistema de contactos</h1>
+    <p class="text-center pb-3">By: Joseph Cconislla Puma</p>
+    <div class="row col-2 pb-3 m-0">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Registrar nuevo contacto
+      </button>
+    </div>
+    <div class="row">
+      <% docs.forEach( user=> { %>
+
+        <div class="col-4">
+          <div class="card" style="width: 18rem;">
+            <% if(user.image !='none' ) { %>
+              <img src="https://s9mybucket.s3.amazonaws.com/<%= user.image %>" alt="" width="286px" height="150px">
+              <% } %>
+            <% if(user.image=='none' ) { %>
+              <img src="https://img.blogs.es/anexom/wp-content/uploads/2020/06/pestana-de-incognito-navegacion-oculta.jpg" alt="" width="286px" height="150px">
+            <% } %>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <%= user.name %>
+                          <%= user.lastName %>
+                      </h5>
+                      <p class="card-text">Email: <%= user.email %>
+                      </p>
+                      <p class="card-text">Fecha de nacimiento: <%= user.birthDate %>
+                      </p>
+                      <div class="row">
+                        <div class="col-3">
+                          <a class="btn btn-warning" href="/updateUser/<%= user.id %>">
+                            Editar
+                          </a>
+                        </div>
+                        <div class="col-3 ms-5">
+                          <form action="/delete/<%=user.id%>" method="post">
+                            <input type="text" hidden="true" id="imagendelete" name="imagendelete"
+                              value="<%= user.image %>">
+                            <input type="submit" class="btn btn-danger" role="button" value="Eliminar">
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <% if(user.image=='none' ){ %>
+                      <div class="card-footer">
+                        <form action="/uploadImage/<%=user.id%>" method="post" enctype="multipart/form-data">
+                          <div class="row d-flex">
+                            <div class="col-7">
+                              <input type="file" class="form-control" required name="image" id="image">
+                            </div>
+                            <div class="col-2">
+                              <input type="submit" class="btn btn-secondary" value="Enviar">
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <% } %>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Nuevo contacto </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/create" method="post">
+          <div class="modal-body">
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Nombres</label>
+                <input type="text" class="form-control" placeholder="Joseph" required name="name" id="name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" placeholder="Puma" required name="lastName" id="lastName">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="joseph@gmail.com" required name="email"
+                  id="email">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" name="birthDate" id="birthDate" placeholder="17/06/2001">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="00.00" required value="none" name="image"
+                  id="image" hidden>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <input type="submit" value="Registrar" class="btn btn-success">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("templates/footer") %>
