@@ -21,7 +21,7 @@ class imageRepository {
 
         return new Promise((resolve, reject) =>{
             const params = {
-                Bucket: 's9mybucket',
+                Bucket: 'tecsupbucketjoseph',
                 Key: key,
                 Body: imagen,
                 ACL: 'public-read',
